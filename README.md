@@ -40,3 +40,7 @@ app/
 - `HotReposViewModelTest`
 - `RepoDetailViewModelTest`
 - `NewIssueScreenTest (Compose)`
+
+## 🖼️ UML 图
+
+![UML 类图](docs/GitHubApp_UML_Latest.png)
