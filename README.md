@@ -43,4 +43,12 @@ app/
 
 ## 🖼️ UML 图
 
+<img src="docs/GitHubApp_ComponentDiagram.png" width="800"/>
+
 <img src="docs/GitHubApp_UML_Latest.png" width="800"/>
+
+<img src="docs/GitHubApp_UseCase.png" width="800"/>
+
+
+
+
