@@ -43,4 +43,4 @@ app/
 
 ## 🖼️ UML 图
 
-![UML 类图](docs/GitHubApp_UML_Latest.png)
+<img src="docs/GitHubApp_UML_Latest.png" width="800"/>
