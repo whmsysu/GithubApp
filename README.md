@@ -41,11 +41,14 @@ app/
 - `RepoDetailViewModelTest`
 - `NewIssueScreenTest (Compose)`
 
-## 🖼️ UML 图
+## 🖼️ 架构图
 
+### ComponentDiagram
 ![UML](docs/GitHubApp_ComponentDiagram.png)
 
+### UML of class
 ![UML](docs/GitHubApp_UML_Latest.png)
 
+### Use Case
 ![UML](docs/GitHubApp_UseCase.png)
 
