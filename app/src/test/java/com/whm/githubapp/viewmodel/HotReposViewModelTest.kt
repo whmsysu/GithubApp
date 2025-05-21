@@ -10,6 +10,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HotReposViewModelTest {
