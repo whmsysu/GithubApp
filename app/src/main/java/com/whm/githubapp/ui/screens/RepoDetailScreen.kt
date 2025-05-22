@@ -9,33 +9,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.whm.githubapp.viewmodel.RepoDetailViewModel
-import com.whm.githubapp.viewmodel.RepoDetailViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RepoDetailScreen(navController: NavController, owner: String, repo: String) {
+fun RepoDetailScreen(
+    navController: NavController,
+    owner: String,
+    repo: String,
+    viewModel: RepoDetailViewModel = hiltViewModel()
+) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
-    val viewModel: RepoDetailViewModel = viewModel(factory = RepoDetailViewModelFactory(context))
 
-    val repoState by viewModel.repo.collectAsState()
+    val repoState by viewModel.gitHubRepo.collectAsState()
     val error by viewModel.error.collectAsState()
-    val loading by viewModel.loading.collectAsState()
+    val loading by viewModel.starLoading.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchRepo(owner, repo)
+        viewModel.loadRepo(owner, repo)
     }
 
     LaunchedEffect(error) {
         error?.let {
             snackbarHostState.showSnackbar(it)
         }
-        viewModel.fetchRepo(owner, repo)
+        viewModel.loadRepo(owner, repo)
 
     }
 
@@ -77,7 +80,9 @@ fun RepoDetailScreen(navController: NavController, owner: String, repo: String) 
                     Text("👤 Owner: ${r.owner.login}")
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(
-                        onClick = { viewModel.toggleStar() },
+                        onClick = {
+                            viewModel.toggleStar(owner, repo)
+                        },
                         enabled = !loading,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
@@ -85,19 +90,23 @@ fun RepoDetailScreen(navController: NavController, owner: String, repo: String) 
                     }
                 }
             }
+
             error != null -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
                     contentAlignment = Alignment.Center
                 ) {
                     Text("Error: $error", color = MaterialTheme.colorScheme.error)
                 }
             }
+
             else -> {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding),
                     contentAlignment = Alignment.Center
                 ) {
                     CircularProgressIndicator()

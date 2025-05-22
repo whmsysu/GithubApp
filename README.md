@@ -35,11 +35,11 @@ app/
 ```
 
 ## 🧪 测试覆盖
-
-- `SearchViewModelTest`
+- `MainAppTest`
 - `HotReposViewModelTest`
-- `RepoDetailViewModelTest`
-- `NewIssueScreenTest (Compose)`
+- `NewIssueViewModelTest`
+- `SearchViewModelTest`
+- `UserReposViewModelTest`
 
 ## 🖼️ 架构图
 

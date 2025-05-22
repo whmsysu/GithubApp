@@ -1,30 +1,30 @@
 package com.whm.githubapp.viewmodel
 
-import app.cash.turbine.test
+import com.whm.githubapp.datastore.UserSessionManager
 import com.whm.githubapp.model.GitHubRepo
-import com.whm.githubapp.model.GitHubRepoResponse
-import com.whm.githubapp.network.GitHubRepoService
+import com.whm.githubapp.network.GitHubUserService
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
+import org.junit.Assert.assertEquals
+import app.cash.turbine.test
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.*
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SearchViewModelTest {
+class UserReposViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private lateinit var viewModel: SearchViewModel
-    private val service = mock<GitHubRepoService>()
+    private val service = mock<GitHubUserService>()
+    private val sessionManager = mock<UserSessionManager>()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-        viewModel = SearchViewModel(service)
     }
 
     @After
@@ -33,7 +33,7 @@ class SearchViewModelTest {
     }
 
     @Test
-    fun `searchRepos emits results`() = runTest {
+    fun `loadUserRepos emits repos`() = runTest {
         val fakeRepos = listOf(
             GitHubRepo(
                 "TestRepo",
@@ -48,16 +48,14 @@ class SearchViewModelTest {
                 isStarred = false
             )
         )
-        whenever(service.searchRepos(any())).thenReturn(
-            GitHubRepoResponse(
-                items = fakeRepos
-            )
+        whenever(service.getUserRepos(any())).thenReturn(fakeRepos)
+        whenever(sessionManager.token).thenReturn(flowOf("123"))
+        val viewModel = UserReposViewModel(
+            sessionManager,
+            service
         )
-
-        viewModel.performSearch()
         dispatcher.scheduler.advanceUntilIdle()
-
-        viewModel.searchResults.test {
+        viewModel.repos.test {
             val state = awaitItem()
             assertEquals(state, fakeRepos)
         }

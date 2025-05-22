@@ -8,17 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.platform.testTag
 import com.whm.githubapp.network.OAuthManager
-import com.whm.githubapp.ui.screens.ProfileTab
+import com.whm.githubapp.ui.screens.ProfileScreen
 import com.whm.githubapp.ui.screens.SearchScreen
 import com.whm.githubapp.ui.theme.GitHubAppTheme
-import com.whm.githubapp.viewmodel.AuthViewModel
-import com.whm.githubapp.viewmodel.AuthViewModelFactory
-import com.whm.githubapp.viewmodel.UserReposViewModel
-import com.whm.githubapp.viewmodel.UserReposViewModelFactory
 import androidx.navigation.compose.*
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -26,8 +20,9 @@ import androidx.navigation.navArgument
 import com.whm.githubapp.ui.screens.HotReposScreen
 import com.whm.githubapp.ui.screens.NewIssueScreen
 import com.whm.githubapp.ui.screens.RepoDetailScreen
-import com.whm.githubapp.viewmodel.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +45,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         val owner = it.arguments?.getString("owner") ?: ""
                         val repo = it.arguments?.getString("repo") ?: ""
-                        RepoDetailScreen(navController,owner, repo)
+                        RepoDetailScreen(navController, owner, repo)
                     }
                     composable(
                         "new_issue/{owner}/{repo}",
@@ -61,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         val owner = it.arguments?.getString("owner") ?: ""
                         val repo = it.arguments?.getString("repo") ?: ""
-                        NewIssueScreen(navController,owner, repo)
+                        NewIssueScreen(navController, owner, repo)
                     }
                 }
 
@@ -84,28 +79,31 @@ class MainActivity : ComponentActivity() {
 fun MainApp(navController: NavHostController) {
     var selectedTabIndex by remember { mutableStateOf(0) }
 
-        Scaffold(
-            bottomBar = {
-                NavigationBar {
-                    NavigationBarItem(
-                        selected = selectedTabIndex == 0,
-                        onClick = { selectedTabIndex = 0 },
-                        icon = {},
-                        label = { Text("Search") }
-                    )
-                    NavigationBarItem(
-                        selected = selectedTabIndex == 1,
-                        onClick = { selectedTabIndex = 1 },
-                        icon = {},
-                        label = { Text("Hot") }
-                    )
-                    NavigationBarItem(
-                        selected = selectedTabIndex == 2,
-                        onClick = { selectedTabIndex = 2 },
-                        icon = {},
-                        label = { Text("Profile") }
-                    )
-                }
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                NavigationBarItem(
+                    modifier = Modifier.testTag("SearchTab"),
+                    selected = selectedTabIndex == 0,
+                    onClick = { selectedTabIndex = 0 },
+                    icon = {},
+                    label = { Text("Search") }
+                )
+                NavigationBarItem(
+                    modifier = Modifier.testTag("HotTab"),
+                    selected = selectedTabIndex == 1,
+                    onClick = { selectedTabIndex = 1 },
+                    icon = {},
+                    label = { Text("Hot") }
+                )
+                NavigationBarItem(
+                    modifier = Modifier.testTag("ProfileTab"),
+                    selected = selectedTabIndex == 2,
+                    onClick = { selectedTabIndex = 2 },
+                    icon = {},
+                    label = { Text("Profile") }
+                )
+            }
         }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
@@ -119,12 +117,7 @@ fun MainApp(navController: NavHostController) {
                 }
 
                 2 -> {
-                    val context = LocalContext.current.applicationContext
-                    val authViewModel: AuthViewModel =
-                        viewModel(factory = AuthViewModelFactory(context))
-                    val userReposViewModel: UserReposViewModel =
-                        viewModel(factory = UserReposViewModelFactory(context))
-                    ProfileTab(navController, authViewModel, userReposViewModel)
+                    ProfileScreen(navController)
                 }
             }
         }

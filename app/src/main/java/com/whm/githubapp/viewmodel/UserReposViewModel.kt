@@ -1,18 +1,21 @@
 package com.whm.githubapp.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.whm.githubapp.datastore.UserSessionManager
 import com.whm.githubapp.model.GitHubRepo
 import com.whm.githubapp.network.GitHubUserService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class UserReposViewModel(context: Context) : ViewModel() {
-    private val userSession = UserSessionManager(context)
-    private val service = GitHubUserService.create()
+@HiltViewModel
+class UserReposViewModel @Inject constructor(
+    userSession: UserSessionManager,
+    service: GitHubUserService
+) : ViewModel() {
 
     private val _repos = MutableStateFlow<List<GitHubRepo>>(emptyList())
     val repos: StateFlow<List<GitHubRepo>> = _repos

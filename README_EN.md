@@ -36,10 +36,11 @@ app/
 
 ## 🧪 Test Coverage
 
-- `SearchViewModelTest`
+- `MainAppTest`
 - `HotReposViewModelTest`
-- `RepoDetailViewModelTest`
-- `NewIssueScreenTest` (Compose UI test)
+- `NewIssueViewModelTest`
+- `SearchViewModelTest`
+- `UserReposViewModelTest`
 
 ## 🖼️ Architecture Diagrams
 

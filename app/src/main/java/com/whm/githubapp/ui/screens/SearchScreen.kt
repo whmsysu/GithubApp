@@ -11,12 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.whm.githubapp.viewmodel.SearchViewModel
 
 @Composable
-fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = viewModel()) {
+fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = hiltViewModel()) {
     val query by viewModel.query.collectAsState()
     val results by viewModel.searchResults.collectAsState()
     val loading by viewModel.loading.collectAsState()
@@ -40,7 +41,12 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
         }
         Spacer(modifier = Modifier.height(16.dp))
         if (loading) {
-            Box(modifier = Modifier.fillMaxWidth().padding(8.dp), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                contentAlignment = Alignment.Center
+            ) {
                 CircularProgressIndicator()
             }
         } else if (error != null) {
@@ -50,7 +56,15 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
                 items(results) { repo ->
                     Card(
                         modifier = Modifier
-                            .clickable { navController.navigate("repoDetail/${repo.owner.login}/${repo.fullName.split("/")[1]}") }
+                            .clickable {
+                                navController.navigate(
+                                    "repoDetail/${repo.owner.login}/${
+                                        repo.fullName.split(
+                                            "/"
+                                        )[1]
+                                    }"
+                                )
+                            }
                             .fillMaxWidth()
                             .padding(vertical = 4.dp),
                         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)

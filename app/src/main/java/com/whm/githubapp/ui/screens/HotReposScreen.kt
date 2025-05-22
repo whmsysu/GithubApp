@@ -9,15 +9,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.whm.githubapp.viewmodel.HotReposViewModel
 import com.whm.githubapp.model.GitHubRepo
 
 @Composable
-fun HotReposScreen(navController: NavController) {
-    val viewModel: HotReposViewModel = viewModel()
-    val repos by viewModel.repos.collectAsState()
+fun HotReposScreen(navController: NavController, viewModel: HotReposViewModel = hiltViewModel()) {
+
+    val repos by viewModel.hotRepos.collectAsState()
     val loading by viewModel.loading.collectAsState()
     val error by viewModel.error.collectAsState()
 
@@ -27,9 +28,10 @@ fun HotReposScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         if (loading) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
@@ -57,7 +59,10 @@ fun HotRepoCard(repo: GitHubRepo, navController: NavController) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(text = repo.fullName, style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = repo.description ?: "No description", style = MaterialTheme.typography.bodySmall)
+            Text(
+                text = repo.description ?: "No description",
+                style = MaterialTheme.typography.bodySmall
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = "⭐ ${repo.stars}   🍴 ${repo.forks ?: "-"}")
         }
