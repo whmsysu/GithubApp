@@ -1,54 +1,54 @@
-# GitHubApp - Android GitHub 客户端
+# GitHubApp - Android GitHub Client
 
-一个基于 Jetpack Compose 和 Kotlin 构建的 GitHub 客户端，支持：
+A GitHub client built with Jetpack Compose and Kotlin, featuring:
 
-- 🔍 仓库搜索（关键字、语言、按 star 排序）
-- 🔥 热门仓库浏览（模拟 Trending）
-- 📄 仓库详情（描述、语言、star、fork、更新时间）
-- ⭐ Star / Unstar 功能（需登录）
-- 🧑 GitHub OAuth 登录 / 登出（保留会话）
-- 📝 向自己仓库提交 Issue（含 Toast 反馈）
-- 🧪 ViewModel 单元测试 / Compose UI 测试
-- 🗂️ 清晰的 MVVM 架构 & 模块划分
-- ✅ 支持屏幕旋转与错误处理
+- 🔍 Repository search (by keyword, language, sorted by stars)
+- 🔥 Browse trending repositories (simulated trending feature)
+- 📄 Repository detail view (description, language, stars, forks, last update)
+- ⭐ Star / Unstar functionality (requires login)
+- 🧑 GitHub OAuth login / logout (persistent session)
+- 📝 Create issues in your own repositories (with toast feedback)
+- 🧪 ViewModel unit tests / Compose UI tests
+- 🗂️ Clean MVVM architecture & modular design
+- ✅ Supports screen rotation and robust error handling
 
-## 🔧 技术栈
+## 🔧 Tech Stack
 
 - Jetpack Compose + Kotlin
 - MVVM + StateFlow + ViewModel
 - Retrofit + Gson
-- DataStore 保存 token
+- DataStore for token storage
 - GitHub REST API
-- 单元测试 + Mockito UI 测试
+- Unit testing + Mockito UI testing
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 app/
-├── ui/screens/              # Compose 页面
+├── ui/screens/              # Compose screens
 ├── viewmodel/               # ViewModels
-├── network/                 # Retrofit 接口
-├── model/                   # 数据类
-├── datastore/               # OAuth token 存储
-├── MainActivity.kt          # 主入口 + Tab 路由
-└── README.md                # 项目说明
+├── network/                 # Retrofit interfaces
+├── model/                   # Data classes
+├── datastore/               # OAuth token storage
+├── MainActivity.kt          # Entry + Tab navigation
+└── README.md                # Project documentation
 ```
 
-## 🧪 测试覆盖
+## 🧪 Test Coverage
+
 - `MainAppTest`
 - `HotReposViewModelTest`
 - `NewIssueViewModelTest`
 - `SearchViewModelTest`
 - `UserReposViewModelTest`
 
-## 🖼️ 架构图
+## 🖼️ Architecture Diagrams
 
-### ComponentDiagram
+### Component Diagram
 ![UML](docs/GitHubApp_ComponentDiagram.png)
 
-### UML of class
+### Class UML Diagram
 ![UML](docs/GitHubApp_UML_Latest.png)
 
-### Use Case
+### Use Case Diagram
 ![UML](docs/GitHubApp_UseCase.png)
-
