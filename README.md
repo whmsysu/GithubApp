@@ -108,14 +108,26 @@ app/src/main/java/com/whm/githubapp/
 ## 🧪 Test Coverage
 
 ### Unit Tests
-- `AuthViewModelTest` - Authentication flow testing
-- `HotReposViewModelTest` - Trending repositories logic
-- `NewIssueViewModelTest` - Issue creation functionality
-- `SearchViewModelTest` - Search with debouncing and pagination
-- `UserReposViewModelTest` - User repository management
+- `AuthViewModelTest` (11 tests) - Authentication flow, token management, user info loading, logout functionality, loading states, error handling
+- `HotReposViewModelTest` (5 tests) - Trending repositories logic, pagination with `loadMore()`, refresh functionality, end-of-data detection, UiState management
+- `NewIssueViewModelTest` (5 tests) - Issue creation functionality, form validation, UiState handling (Loading/Success/Error), repository integration
+- `SearchViewModelTest` (5 tests) - Search with 300ms debouncing, pagination, infinite scroll, UiState management, error scenarios
+- `UserReposViewModelTest` (7 tests) - User repository management, token validation, empty states, UiState transitions, loading states
+- `RepoDetailViewModelTest` (8 tests) - Repository details loading, star/unstar functionality, star status checking, UiState management, error handling
 
 ### UI Tests
-- `MainAppTest` - End-to-end navigation and user flows
+- `MainAppTest` - End-to-end navigation, tab switching, authentication states
+- `SearchScreenTest` - Search input, results display, infinite scroll, error handling
+- `HotReposScreenTest` - Trending repos display, loading states, navigation
+- `ProfileScreenTest` - Login/logout flows, user info display, confirmation dialogs
+- `RepoDetailScreenTest` - Repository details, star button, new issue navigation
+- `NewIssueScreenTest` - Issue creation form, validation, success/error states
+
+### Test Coverage Statistics
+- **Unit Tests**: 6 test classes, 41 test methods
+- **UI Tests**: 6 test classes, 50+ test methods
+- **Coverage Areas**: ViewModels, Repositories, UI Components, Navigation, User Interactions
+- **Test Scenarios**: Happy paths, error cases, edge cases, loading states, empty states, pagination, debouncing
 
 ## 🛠️ Getting Started
 

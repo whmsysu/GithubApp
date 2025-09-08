@@ -108,14 +108,26 @@ app/src/main/java/com/whm/githubapp/
 ## 🧪 测试覆盖
 
 ### 单元测试
-- `AuthViewModelTest` - 认证流程测试
-- `HotReposViewModelTest` - 热门仓库逻辑
-- `NewIssueViewModelTest` - Issue 创建功能
-- `SearchViewModelTest` - 带防抖和分页的搜索
-- `UserReposViewModelTest` - 用户仓库管理
+- `AuthViewModelTest` (11 个测试) - 认证流程、令牌管理、用户信息加载、登出功能、加载状态、错误处理
+- `HotReposViewModelTest` (5 个测试) - 热门仓库逻辑、分页加载、刷新功能、数据结束检测、UiState 管理
+- `NewIssueViewModelTest` (5 个测试) - Issue 创建功能、表单验证、UiState 处理（加载/成功/错误）、仓库集成
+- `SearchViewModelTest` (5 个测试) - 300ms 防抖搜索、分页、无限滚动、UiState 管理、错误场景
+- `UserReposViewModelTest` (7 个测试) - 用户仓库管理、令牌验证、空状态、UiState 转换、加载状态
+- `RepoDetailViewModelTest` (8 个测试) - 仓库详情加载、星标功能、星标状态检查、UiState 管理、错误处理
 
 ### UI 测试
-- `MainAppTest` - 端到端导航和用户流程
+- `MainAppTest` - 端到端导航、标签切换、认证状态
+- `SearchScreenTest` - 搜索输入、结果显示、无限滚动、错误处理
+- `HotReposScreenTest` - 热门仓库显示、加载状态、导航
+- `ProfileScreenTest` - 登录/登出流程、用户信息显示、确认对话框
+- `RepoDetailScreenTest` - 仓库详情、星标按钮、新建 Issue 导航
+- `NewIssueScreenTest` - Issue 创建表单、验证、成功/错误状态
+
+### 测试覆盖统计
+- **单元测试**: 6 个测试类，41 个测试方法
+- **UI 测试**: 6 个测试类，50+ 个测试方法
+- **覆盖范围**: ViewModels、Repositories、UI 组件、导航、用户交互
+- **测试场景**: 正常流程、错误情况、边界情况、加载状态、空状态、分页、防抖
 
 ## 🛠️ 快速开始
 
