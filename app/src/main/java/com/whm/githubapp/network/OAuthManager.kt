@@ -2,7 +2,9 @@ package com.whm.githubapp.network
 
 import android.content.Context
 import com.whm.githubapp.datastore.UserSessionManager
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import okhttp3.*
 import org.json.JSONObject
@@ -12,7 +14,7 @@ object OAuthManager {
 
     private const val CLIENT_ID = "Ov23ctcH0eRM3sjBTHcz"
     private const val CLIENT_SECRET = "f1dc110a16a14183dafeb8d108aae49f8eb39c4a"
-    private const val REDIRECT_URI = "https://your-app.com/callback"
+    private const val REDIRECT_URI = "myapp://callback"
 
     fun exchangeCodeForToken(code: String, context: Context) {
         val client = OkHttpClient()
@@ -38,7 +40,7 @@ object OAuthManager {
                 response.body?.string()?.let {
                     val json = JSONObject(it)
                     val token = json.getString("access_token")
-                    GlobalScope.launch {
+                    CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
                         UserSessionManager(context).saveToken(token)
                     }
                 }

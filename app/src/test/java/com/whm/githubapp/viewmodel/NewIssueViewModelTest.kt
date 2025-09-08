@@ -1,16 +1,14 @@
 package com.whm.githubapp.viewmodel
 
 import app.cash.turbine.test
-import com.whm.githubapp.datastore.UserSessionManager
-import com.whm.githubapp.model.CreateIssueRequest
 import com.whm.githubapp.model.IssueResponse
-import com.whm.githubapp.network.GitHubRepoService
+import com.whm.githubapp.repository.RepoRepository
+import com.whm.githubapp.ui.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.*
 import org.junit.After
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.*
@@ -19,14 +17,13 @@ import org.mockito.kotlin.*
 class NewIssueViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
-    private val service = mock<GitHubRepoService>()
-    private val sessionManager = mock<UserSessionManager>()
+    private val repoRepository = mock<RepoRepository>()
     private lateinit var viewModel: NewIssueViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
-        viewModel = NewIssueViewModel(sessionManager, service)
+        viewModel = NewIssueViewModel(repoRepository)
     }
 
     @After
@@ -35,23 +32,96 @@ class NewIssueViewModelTest {
     }
 
     @Test
-    fun `submitIssue updates status on success`() = runTest {
-        val resp = IssueResponse(
-            0,
-            0,
-            "",
-            "",
-            ""
+    fun `createIssue updates status on success`() = runTest {
+        val response = IssueResponse(
+            number = 123,
+            id = 456,
+            title = "Test Issue",
+            body = "Test Description",
+            state = "open"
         )
-        whenever(service.createIssue(any(), any(), any(), any())).thenReturn(
-            resp
-        )
-        whenever(sessionManager.token).thenReturn(flowOf("123"))
+        whenever(repoRepository.createIssue(any(), any(), any(), any())).thenReturn(response)
+
         viewModel.createIssue("user", "repo", "title", "desc")
         dispatcher.scheduler.advanceUntilIdle()
-        viewModel.success.test {
+
+        viewModel.uiState.test {
             val state = awaitItem()
-            assertEquals(state, resp)
+            assertTrue(state is UiState.Success)
+            assertEquals(response, (state as UiState.Success).data)
+        }
+    }
+
+    @Test
+    fun `createIssue shows loading state initially`() = runTest {
+        val response = IssueResponse(
+            number = 123,
+            id = 456,
+            title = "Test Issue",
+            body = "Test Description",
+            state = "open"
+        )
+        whenever(repoRepository.createIssue(any(), any(), any(), any())).thenReturn(response)
+
+        viewModel.createIssue("user", "repo", "title", "desc")
+
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertTrue(state is UiState.Loading)
+        }
+    }
+
+    @Test
+    fun `createIssue shows error state on failure`() = runTest {
+        val errorMessage = "Network Error"
+        whenever(repoRepository.createIssue(any(), any(), any(), any())).thenThrow(
+            RuntimeException(errorMessage)
+        )
+
+        viewModel.createIssue("user", "repo", "title", "desc")
+        dispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.uiState.test {
+            val state = awaitItem()
+            assertTrue(state is UiState.Error)
+            assertEquals(errorMessage, (state as UiState.Error).message)
+        }
+    }
+
+    @Test
+    fun `createIssue calls repository with correct parameters`() = runTest {
+        val response = IssueResponse(
+            number = 123,
+            id = 456,
+            title = "Test Issue",
+            body = "Test Description",
+            state = "open"
+        )
+        whenever(repoRepository.createIssue(any(), any(), any(), any())).thenReturn(response)
+
+        viewModel.createIssue("testuser", "testrepo", "Test Title", "Test Description")
+        dispatcher.scheduler.advanceUntilIdle()
+
+        verify(repoRepository).createIssue("testuser", "testrepo", "Test Title", "Test Description")
+    }
+
+    @Test
+    fun `success state is emitted after successful creation`() = runTest {
+        val response = IssueResponse(
+            number = 123,
+            id = 456,
+            title = "Test Issue",
+            body = "Test Description",
+            state = "open"
+        )
+        whenever(repoRepository.createIssue(any(), any(), any(), any())).thenReturn(response)
+
+        viewModel.createIssue("user", "repo", "title", "desc")
+        dispatcher.scheduler.advanceUntilIdle()
+
+        viewModel.success.test {
+            val result = awaitItem()
+            assertEquals(response, result)
         }
     }
 }

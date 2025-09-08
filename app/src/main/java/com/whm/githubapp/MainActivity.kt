@@ -20,7 +20,9 @@ import androidx.navigation.navArgument
 import com.whm.githubapp.ui.screens.HotReposScreen
 import com.whm.githubapp.ui.screens.NewIssueScreen
 import com.whm.githubapp.ui.screens.RepoDetailScreen
+import com.whm.githubapp.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -65,7 +67,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleOAuthRedirect(data: Uri?) {
-        if (data?.scheme == "https" && data.host == "your-app.com") {
+        if (data?.scheme == "myapp" && data.host == "callback") {
             val code = data.getQueryParameter("code")
             code?.let {
                 OAuthManager.exchangeCodeForToken(it, applicationContext)
@@ -77,9 +79,22 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainApp(navController: NavHostController) {
-    var selectedTabIndex by remember { mutableStateOf(0) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val authViewModel: AuthViewModel = hiltViewModel()
+    val token by authViewModel.token.collectAsState()
+    
+    // 根据 token 状态决定初始页面：有 token 显示 Profile，无 token 显示 Search
+    var selectedTabIndex by remember { mutableStateOf(if (token.isNullOrEmpty()) 0 else 2) }
+    
+    // 监听 token 变化，如果从无 token 变为有 token，自动跳转到 Profile 页面
+    LaunchedEffect(token) {
+        if (!token.isNullOrEmpty() && selectedTabIndex != 2) {
+            selectedTabIndex = 2
+        }
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
             NavigationBar {
                 NavigationBarItem(

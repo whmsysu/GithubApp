@@ -1,54 +1,172 @@
 # GitHubApp - Android GitHub Client
 
-A GitHub client built with Jetpack Compose and Kotlin, featuring:
+A modern GitHub client built with Jetpack Compose and Kotlin, featuring:
 
-- 🔍 Repository search (by keyword, language, sorted by stars)
-- 🔥 Browse trending repositories (simulated trending feature)
-- 📄 Repository detail view (description, language, stars, forks, last update)
-- ⭐ Star / Unstar functionality (requires login)
-- 🧑 GitHub OAuth login / logout (persistent session)
-- 📝 Create issues in your own repositories (with toast feedback)
-- 🧪 ViewModel unit tests / Compose UI tests
-- 🗂️ Clean MVVM architecture & modular design
-- ✅ Supports screen rotation and robust error handling
+- 🔍 **Repository Search** - Search repositories with infinite scroll pagination
+- 🔥 **Trending Repositories** - Browse trending repos with auto-loading
+- 📄 **Repository Details** - View detailed repo info with star/unstar functionality
+- ⭐ **Star Management** - Star/unstar repositories (requires login)
+- 🧑 **GitHub OAuth** - Secure login with custom URI scheme redirect
+- 📝 **Issue Creation** - Create issues in your repositories with rich UI
+- 👤 **User Profile** - View user info, stats, and repository list
+- 🏗️ **Repository Pattern** - Clean architecture with data abstraction
+- 🔄 **HTTP Caching** - ETag-based conditional requests and response caching
+- 📱 **Infinite Scroll** - Smooth pagination with configurable prefetch thresholds
+- 🎨 **Material Design 3** - Modern UI with consistent theming
+- 🧪 **Comprehensive Testing** - Unit tests and UI tests
+- ✅ **Robust Error Handling** - Network errors, authentication, and edge cases
 
 ## 🔧 Tech Stack
 
-- Jetpack Compose + Kotlin
-- MVVM + StateFlow + ViewModel
-- Retrofit + Gson
-- DataStore for token storage
-- GitHub REST API
-- Unit testing + Mockito UI testing
+### Core Technologies
+- **Jetpack Compose** - Modern declarative UI toolkit
+- **Kotlin** - 100% Kotlin with coroutines and flows
+- **Material Design 3** - Latest design system implementation
+
+### Architecture & State Management
+- **MVVM Architecture** - Clean separation of concerns
+- **Repository Pattern** - Data abstraction layer
+- **StateFlow & Flow** - Reactive state management
+- **Hilt Dependency Injection** - Type-safe DI framework
+
+### Network & Data
+- **Retrofit** - Type-safe HTTP client
+- **OkHttp** - HTTP client with interceptors
+- **Gson** - JSON serialization
+- **DataStore** - Secure token storage
+- **HTTP Caching** - ETag-based conditional requests
+
+### Testing
+- **JUnit 5** - Unit testing framework
+- **Mockito** - Mocking framework
+- **Compose Testing** - UI testing utilities
 
 ## 📁 Project Structure
 
 ```
-app/
-├── ui/screens/              # Compose screens
-├── viewmodel/               # ViewModels
-├── network/                 # Retrofit interfaces
-├── model/                   # Data classes
-├── datastore/               # OAuth token storage
-├── MainActivity.kt          # Entry + Tab navigation
-└── README.md                # Project documentation
+app/src/main/java/com/whm/githubapp/
+├── 📱 MainActivity.kt              # App entry point & navigation
+├── 🎨 ui/
+│   ├── screens/                    # Compose UI screens
+│   │   ├── SearchScreen.kt         # Repository search with infinite scroll
+│   │   ├── HotReposScreen.kt       # Trending repositories
+│   │   ├── ProfileScreen.kt        # User profile & repositories
+│   │   ├── RepoDetailScreen.kt     # Repository details
+│   │   └── NewIssueScreen.kt       # Issue creation form
+│   ├── theme/                      # Material Design 3 theming
+│   └── UiState.kt                  # Unified UI state management
+├── 🏗️ viewmodel/                   # MVVM ViewModels
+│   ├── AuthViewModel.kt            # Authentication state
+│   ├── SearchViewModel.kt          # Search functionality
+│   ├── HotReposViewModel.kt        # Trending repos
+│   ├── UserReposViewModel.kt       # User repositories
+│   ├── RepoDetailViewModel.kt      # Repository details
+│   └── NewIssueViewModel.kt        # Issue creation
+├── 🗄️ repository/                  # Data abstraction layer
+│   ├── RepoRepository.kt           # Repository data operations
+│   └── UserRepository.kt           # User data operations
+├── 🌐 network/                     # Network layer
+│   ├── GitHubRepoService.kt        # Repository API endpoints
+│   ├── GitHubUserService.kt        # User API endpoints
+│   ├── OAuthManager.kt             # OAuth flow management
+│   ├── NetworkConstants.kt         # Network configuration
+│   └── ETagStore.kt                # HTTP caching support
+├── 📊 model/                       # Data models
+│   ├── GitHubRepo.kt               # Repository data class
+│   ├── GitHubUser.kt               # User data class
+│   ├── IssueResponse.kt            # Issue response model
+│   └── CreateIssueRequest.kt       # Issue creation model
+├── 💾 datastore/                   # Local data storage
+│   ├── UserSessionManager.kt       # OAuth token management
+│   └── TokenProvider.kt            # Token caching & observation
+└── 🔧 di/                          # Dependency injection
+    └── AppModule.kt                # Hilt module configuration
 ```
+
+## 🚀 Key Features
+
+### 🔐 Authentication & Security
+- **OAuth 2.0 Flow** - Secure GitHub authentication
+- **Custom URI Scheme** - Seamless redirect handling (`myapp://callback`)
+- **Token Management** - Secure storage with DataStore
+- **Auto-login** - Persistent sessions with automatic profile navigation
+
+### 📱 User Experience
+- **Infinite Scroll** - Smooth pagination with configurable prefetch thresholds
+- **HTTP Caching** - ETag-based conditional requests for better performance
+- **Loading States** - Comprehensive loading, error, and empty state handling
+- **Material Design 3** - Modern, consistent UI components
+- **Responsive Design** - Optimized for different screen sizes
+
+### 🏗️ Architecture Highlights
+- **Repository Pattern** - Clean data abstraction layer
+- **Dependency Injection** - Hilt-powered DI for testability
+- **Unified State Management** - Consistent `UiState` across all screens
+- **Network Optimization** - Interceptors for auth, logging, and caching
+- **Error Handling** - Global 401/403 handling with automatic token clearing
 
 ## 🧪 Test Coverage
 
-- `MainAppTest`
-- `HotReposViewModelTest`
-- `NewIssueViewModelTest`
-- `SearchViewModelTest`
-- `UserReposViewModelTest`
+### Unit Tests
+- `AuthViewModelTest` - Authentication flow testing
+- `HotReposViewModelTest` - Trending repositories logic
+- `NewIssueViewModelTest` - Issue creation functionality
+- `SearchViewModelTest` - Search with debouncing and pagination
+- `UserReposViewModelTest` - User repository management
+
+### UI Tests
+- `MainAppTest` - End-to-end navigation and user flows
+
+## 🛠️ Getting Started
+
+### Prerequisites
+- Android Studio Arctic Fox or later
+- JDK 17
+- Android SDK 34
+- GitHub OAuth App (for authentication)
+
+### Setup
+1. Clone the repository
+2. Create a GitHub OAuth App:
+   - Go to GitHub Settings → Developer settings → OAuth Apps
+   - Set Authorization callback URL to: `myapp://callback`
+   - Update `CLIENT_ID` and `CLIENT_SECRET` in `OAuthManager.kt`
+3. Build and run the project
+
+### Configuration
+- **Base URL**: `https://api.github.com/` (configurable in `NetworkConstants.kt`)
+- **Cache Duration**: 60 seconds (configurable)
+- **Prefetch Threshold**: 5 items from bottom (configurable in ViewModels)
 
 ## 🖼️ Architecture Diagrams
 
 ### Component Diagram
-![UML](docs/GitHubApp_ComponentDiagram.png)
+![Component Diagram](docs/GitHubApp_ComponentDiagram.png)
 
 ### Class UML Diagram
-![UML](docs/GitHubApp_UML_Latest.png)
+![UML Diagram](docs/GitHubApp_UML_Latest.png)
 
 ### Use Case Diagram
-![UML](docs/GitHubApp_UseCase.png)
+![Use Case Diagram](docs/GitHubApp_UseCase.png)
+
+## 📈 Performance Optimizations
+
+- **HTTP Caching** - Reduces API calls with ETag-based conditional requests
+- **Infinite Scroll** - Configurable prefetch thresholds for smooth UX
+- **Debounced Search** - 300ms debounce to reduce API calls
+- **Token Caching** - Cached token access for faster authentication
+- **Lazy Loading** - Efficient list rendering with Compose LazyColumn
+
+## 🔧 Development
+
+### Code Style
+- Follow Kotlin coding conventions
+- Use meaningful variable and function names
+- Add comprehensive documentation for public APIs
+- Maintain consistent formatting with ktlint
+
+### Testing Strategy
+- Unit tests for ViewModels and business logic
+- UI tests for critical user flows
+- Mock external dependencies for isolated testing
+- Test error scenarios and edge cases

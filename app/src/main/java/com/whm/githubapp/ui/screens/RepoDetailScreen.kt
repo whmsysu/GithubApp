@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import com.whm.githubapp.viewmodel.RepoDetailViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import com.whm.githubapp.ui.UiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,6 +30,7 @@ fun RepoDetailScreen(
     val repoState by viewModel.gitHubRepo.collectAsState()
     val error by viewModel.error.collectAsState()
     val loading by viewModel.starLoading.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadRepo(owner, repo)

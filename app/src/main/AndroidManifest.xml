@@ -22,9 +22,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
-                    android:host="your-app.com"
-                    android:path="/callback" />
+                    android:scheme="myapp"
+                    android:host="callback" />
             </intent-filter>
         </activity>
     </application>
