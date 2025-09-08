@@ -141,13 +141,13 @@ app/src/main/java/com/whm/githubapp/
 ## 🖼️ 架构图
 
 ### 组件图
-![组件图](docs/GitHubApp_ComponentDiagram.png)
+![组件图](docs/GitHubApp_ComponentDiagram_New.png)
 
 ### 类 UML 图
-![UML 图](docs/GitHubApp_UML_Latest.png)
+![UML 图](docs/GitHubApp_UML_New.png)
 
 ### 用例图
-![用例图](docs/GitHubApp_UseCase.png)
+![用例图](docs/GitHubApp_UseCase_New.png)
 
 ## 📈 性能优化
 

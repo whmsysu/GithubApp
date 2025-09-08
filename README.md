@@ -141,13 +141,13 @@ app/src/main/java/com/whm/githubapp/
 ## 🖼️ Architecture Diagrams
 
 ### Component Diagram
-![Component Diagram](docs/GitHubApp_ComponentDiagram.png)
+![Component Diagram](docs/GitHubApp_ComponentDiagram_New.png)
 
 ### Class UML Diagram
-![UML Diagram](docs/GitHubApp_UML_Latest.png)
+![UML Diagram](docs/GitHubApp_UML_New.png)
 
 ### Use Case Diagram
-![Use Case Diagram](docs/GitHubApp_UseCase.png)
+![Use Case Diagram](docs/GitHubApp_UseCase_New.png)
 
 ## 📈 Performance Optimizations
 
