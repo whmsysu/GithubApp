@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -101,21 +103,36 @@ fun MainApp(navController: NavHostController) {
                     modifier = Modifier.testTag("SearchTab"),
                     selected = selectedTabIndex == 0,
                     onClick = { selectedTabIndex = 0 },
-                    icon = {},
+                    icon = { 
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = "Search"
+                        )
+                    },
                     label = { Text("Search") }
                 )
                 NavigationBarItem(
                     modifier = Modifier.testTag("HotTab"),
                     selected = selectedTabIndex == 1,
                     onClick = { selectedTabIndex = 1 },
-                    icon = {},
+                    icon = { 
+                        Icon(
+                            imageVector = Icons.Filled.Star,
+                            contentDescription = "Hot"
+                        )
+                    },
                     label = { Text("Hot") }
                 )
                 NavigationBarItem(
                     modifier = Modifier.testTag("ProfileTab"),
                     selected = selectedTabIndex == 2,
                     onClick = { selectedTabIndex = 2 },
-                    icon = {},
+                    icon = { 
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            contentDescription = "Profile"
+                        )
+                    },
                     label = { Text("Profile") }
                 )
             }
