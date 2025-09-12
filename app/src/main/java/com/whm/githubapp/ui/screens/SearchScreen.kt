@@ -10,6 +10,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,20 +45,27 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        OutlinedTextField(
-            value = query,
-            onValueChange = viewModel::onQueryChange,
-            singleLine = true,
-            maxLines = 1,
-            label = { Text("Search Repositories") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        Button(
-            onClick = viewModel::performSearch,
-            modifier = Modifier.align(Alignment.End)
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text("Search")
+            OutlinedTextField(
+                value = query,
+                onValueChange = viewModel::onQueryChange,
+                singleLine = true,
+                maxLines = 1,
+                label = { Text("Search Repositories") },
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("SearchInput")
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = viewModel::performSearch,
+                modifier = Modifier.testTag("SearchButton")
+            ) {
+                Text("Search")
+            }
         }
         Spacer(modifier = Modifier.height(16.dp))
         if (loading && results.isEmpty()) {
