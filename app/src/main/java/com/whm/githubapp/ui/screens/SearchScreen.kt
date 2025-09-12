@@ -28,7 +28,6 @@ fun SearchScreen(navController: NavHostController, viewModel: SearchViewModel = 
     val results by viewModel.searchResults.collectAsState()
     val loading by viewModel.loading.collectAsState()
     val error by viewModel.error.collectAsState()
-    val uiState by viewModel.uiState.collectAsState()
     val listState = rememberLazyListState()
 
     LaunchedEffect(results, loading) {

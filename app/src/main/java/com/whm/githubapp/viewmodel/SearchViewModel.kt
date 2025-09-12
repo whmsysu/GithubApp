@@ -14,10 +14,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 import com.whm.githubapp.ui.UiState
 
 @HiltViewModel
+@OptIn(FlowPreview::class)
 class SearchViewModel @Inject constructor(
     private val repoRepository: RepoRepository
 ) : ViewModel() {

@@ -30,7 +30,6 @@ fun RepoDetailScreen(
     val repoState by viewModel.gitHubRepo.collectAsState()
     val error by viewModel.error.collectAsState()
     val loading by viewModel.starLoading.collectAsState()
-    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.loadRepo(owner, repo)

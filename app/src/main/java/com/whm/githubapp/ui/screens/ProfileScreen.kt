@@ -306,11 +306,11 @@ fun formatRelativeTime(raw: String?): String {
         val diff = now.time - (date?.time ?: return "")
         
         when {
-            diff < 24 * 60 * 60 * 1000 -> "today"
-            diff < 7 * 24 * 60 * 60 * 1000 -> "${diff / (24 * 60 * 60 * 1000)}d ago"
-            diff < 30 * 24 * 60 * 60 * 1000 -> "${diff / (7 * 24 * 60 * 60 * 1000)}w ago"
-            diff < 365 * 24 * 60 * 60 * 1000 -> "${diff / (30 * 24 * 60 * 60 * 1000)}mo ago"
-            else -> "${diff / (365 * 24 * 60 * 60 * 1000)}y ago"
+            diff < 24L * 60 * 60 * 1000 -> "today"
+            diff < 7L * 24 * 60 * 60 * 1000 -> "${diff / (24L * 60 * 60 * 1000)}d ago"
+            diff < 30L * 24 * 60 * 60 * 1000 -> "${diff / (7L * 24 * 60 * 60 * 1000)}w ago"
+            diff < 365L * 24 * 60 * 60 * 1000 -> "${diff / (30L * 24 * 60 * 60 * 1000)}mo ago"
+            else -> "${diff / (365L * 24 * 60 * 60 * 1000)}y ago"
         }
     } catch (e: Exception) {
         ""
